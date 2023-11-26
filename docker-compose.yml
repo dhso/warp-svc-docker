@@ -6,7 +6,9 @@ services:
     - 1080:1080
     restart: always
     environment:
+    - "WARP_ATUO_REG=true"
     - "WARP_LICENSE="
+    - "WARP_TEAM="
     - "FAMILIES_MODE=off"
     volumes:
     - ./warp:/var/lib/cloudflare-warp
