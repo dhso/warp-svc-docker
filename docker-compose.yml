@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
     - "WARP_LICENSE="
-    - "WARP_TEAM="
+    - "TEAMS_ENROLL_TOKEN="
     - "FAMILIES_MODE=off"
     volumes:
     - ./warp:/var/lib/cloudflare-warp

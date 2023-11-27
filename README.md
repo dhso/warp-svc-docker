@@ -17,7 +17,7 @@ The socks proxy in exposed on port `1080`
 You can use these environment variables:
 * `FAMILIES_MODE`: Use one of `off`, `malware` and `full` values. (Default: `off`)
 * `WARP_LICENSE`: Put your WARP+ licesne. (You can get a free WARP+ license from this telegram bot: https://t.me/generatewarpplusbot)
-* `WARP_TEAM`: Put your Team token. (You can get token from this steps)
+* `TEAMS_ENROLL_TOKEN`: Put your Team enroll token. (You can get token from this steps)
 ```
 1. visit: https://<your_domain>.cloudflareaccess.com/warp
 
@@ -26,6 +26,9 @@ You can use these environment variables:
 Find the HTML metadata tag that contains the token. For example, <meta http-equiv="refresh" content"=0;url=com.cloudflare.warp://acmecorp.cloudflareaccess.com/auth?token=yeooilknmasdlfnlnsadfojDSFJndf_kjnasdf..." />
 
 3. Copy the URL field: com.cloudflare.warp://<your-team-name>.cloudflareaccess.com/auth?token=<your-token>
+OR
+content=document.querySelector("meta[http-equiv='refresh']").content.split("=");
+console.log(content[1]+"="+content[2])
 ```
 
 You should mount `/var/lib/cloudflare-warp` directory of the container to your host to make you WARP account persistant. Notice that each WARP+ license is working only on 4 device so persisting the configuration is important!
