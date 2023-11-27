@@ -1,5 +1,6 @@
 FROM ubuntu:22.04
 ENV WARP_LICENSE=
+ENV WARP_TEAM=
 ENV FAMILIES_MODE=off
 EXPOSE 1080/tcp
 RUN apt update && \
