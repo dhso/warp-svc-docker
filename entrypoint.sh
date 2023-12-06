@@ -19,6 +19,7 @@ fi
 
 warp-cli --accept-tos connect
 warp-cli --accept-tos enable-always-on
+warp-cli --accept-tos disable-connectivity-checks
 
 sleep 2
 

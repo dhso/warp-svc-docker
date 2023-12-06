@@ -13,5 +13,9 @@ RUN apt update && \
   apt install cloudflare-warp -y && \
   rm -rf /var/lib/apt/lists/*
 COPY --chmod=755 entrypoint.sh entrypoint.sh
+COPY --chmod=755 yxip.sh /usr/local/bin/yxip.sh
+COPY --chmod=755 yxwarp /usr/local/bin/yxwarp
+COPY --chmod=755 nf /usr/local/bin/nf
 VOLUME ["/var/lib/cloudflare-warp"]
-CMD ["./entrypoint.sh"]
+WORKDIR /var/lib/cloudflare-warp
+CMD ["/bin/bash", "/entrypoint.sh"]
