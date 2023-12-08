@@ -4,7 +4,7 @@ ENV TEAMS_ENROLL_TOKEN=
 ENV FAMILIES_MODE=off
 EXPOSE 1080/tcp
 RUN apt update && \
-  apt install curl gpg socat -y && \
+  apt install curl gpg socat wget -y && \
   curl https://pkg.cloudflareclient.com/pubkey.gpg | \
   gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg && \
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ jammy main" | \

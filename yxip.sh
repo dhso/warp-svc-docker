@@ -31,6 +31,7 @@ archAffix(){
 updateBin() {
     updateYXWarp
     updateNF
+    pinput
 }
 
 updateYXWarp() {

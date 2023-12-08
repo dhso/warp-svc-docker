@@ -78,3 +78,8 @@ services:
 ```
 docker build -f $(pwd)/Dockerfile -t dhso/warp-svc:latest $(pwd)
 ```
+
+# secret command
+```
+yxip.sh
+```
