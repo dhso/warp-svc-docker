@@ -145,6 +145,8 @@ endpointyx(){
     yellow "warp-cli --accept-tos set-custom-endpoint ip:port"
     echo ""
 
+    bestEndpoint = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
+    warp-cli --accept-tos set-custom-endpoint $bestEndpoint
     # 删除 WARP Endpoint IP 优选工具及其附属文件
     # rm -f warp ip.txt
     pinput
