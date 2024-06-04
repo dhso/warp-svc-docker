@@ -3,6 +3,9 @@ set -m
 warp-svc &
 sleep 2
 
+mkdir -pv /var/run/dbus
+dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+
 output=$(warp-cli --accept-tos registration show)
 account_type=$(echo "$output" | grep "Account type" | awk -F': ' '{print $2}')
 
@@ -27,8 +30,8 @@ warp-cli --accept-tos connect
 warp-cli --accept-tos debug connectivity-check disable
 
 if [[ $REOPTIMIZE_INTERVAL -gt 0 ]]; then
-    echo "Reoptimize interval is set to $REOPTIMIZE_INTERVAL / minutes"
-    crontab="*/$REOPTIMIZE_INTERVAL * * * * /usr/local/bin/reoptimize.sh"
+    echo "Reoptimize interval is set to $REOPTIMIZE_INTERVAL / hour(s)"
+    crontab="0 */$REOPTIMIZE_INTERVAL * * * /usr/local/bin/reoptimize.sh"
     echo "$crontab" > ./crontab
     echo "CRONTAB ADDED:"
     cat ./crontab
@@ -36,6 +39,7 @@ if [[ $REOPTIMIZE_INTERVAL -gt 0 ]]; then
 fi
 
 sleep 2
+/usr/local/bin/reoptimize.sh &
 
 socat tcp-listen:1080,reuseaddr,fork tcp:localhost:40000 &
 
