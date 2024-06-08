@@ -138,10 +138,10 @@ endpointyx(){
     green "当前最优 Endpoint IP 结果如下,并已保存至 result.csv中: "
     cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | awk -F, '{print "端点 "$1" 丢包率 "$2" 平均延迟 "$3}'
     echo ""
-    best_endpoint = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
-    loss = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $2 }' | grep -oP '\d+(\.\d+)')
-    delay = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $3 }' | grep -oP '\d+')
-    if [ ($loss -lt 1) && ($delay -lt 500) ];then
+    best_endpoint=$(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
+    loss=$(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $2 }' | grep -oP '\d+' | sed -n "1, 1p")
+    delay=$(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $3 }' | grep -oP '\d+')
+    if [ $loss -lt 2 ] && [ $delay -lt 500 ];then
         echo ""
         echo "正在设置优选IP"
         warp-cli --accept-tos set-custom-endpoint $best_endpoint
