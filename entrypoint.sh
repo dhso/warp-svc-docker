@@ -36,10 +36,9 @@ if [[ $REOPTIMIZE_INTERVAL -gt 0 ]]; then
     echo "CRONTAB ADDED:"
     cat ./crontab
     exec /usr/local/bin/supercronic ./crontab &
+    sleep 2
+    /usr/local/bin/reoptimize.sh &
 fi
-
-sleep 2
-/usr/local/bin/reoptimize.sh &
 
 socat tcp-listen:1080,reuseaddr,fork tcp:localhost:40000 &
 
