@@ -149,12 +149,14 @@ endpointyx(){
     if [ $loss -lt 2 ] && [ $delay -lt 500 ];then
         echo ""
         echo "正在设置优选IP"
-        warp-cli --accept-tos set-custom-endpoint $best_endpoint
+        warp-cli --accept-tos tunnel endpoint set $best_endpoint
         echo ""
     else
-        echo "延迟/丢包过高，放弃设置优选IP！"
         echo ""
-    if
+        echo "延迟/丢包过高，放弃设置优选IP！"
+        warp-cli --accept-tos tunnel endpoint reset
+        echo ""
+    fi
     # 删除 WARP Endpoint IP 优选工具及其附属文件
     # rm -f warp ip.txt
     pinput
