@@ -138,15 +138,22 @@ endpointyx(){
     green "当前最优 Endpoint IP 结果如下,并已保存至 result.csv中: "
     cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | awk -F, '{print "端点 "$1" 丢包率 "$2" 平均延迟 "$3}'
     echo ""
-    echo "正在设置优选IP"
-    best_endpoint=$(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
-    # warp-cli --accept-tos set-custom-endpoint $best_endpoint
-    warp-cli --accept-tos tunnel endpoint set $best_endpoint
-    echo ""
-    # 删除 WARP Endpoint IP 优选工具及其附属文件
-    # rm -f warp ip.txt
-    checkNF
-    checkGPT
+    best_endpoint = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
+    loss = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $2 }' | grep -oP '\d+(\.\d+)')
+    delay = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $3 }' | grep -oP '\d+')
+    if [ ($loss -lt 1) && ($delay -lt 500) ];then
+        echo ""
+        echo "正在设置优选IP"
+        warp-cli --accept-tos set-custom-endpoint $best_endpoint
+        echo ""
+        # 删除 WARP Endpoint IP 优选工具及其附属文件
+        # rm -f warp ip.txt
+        checkNF
+        checkGPT
+    else
+        echo "延迟/丢包过高，放弃设置优选IP！"
+        echo ""
+    if
 }
 
 endpoint4(){
