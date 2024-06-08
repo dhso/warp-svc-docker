@@ -150,6 +150,9 @@ endpointyx(){
         echo ""
         echo "正在设置优选IP"
         warp-cli --accept-tos set-custom-endpoint $best_endpoint
+    else
+        echo "延迟/丢包过高，放弃设置优选IP！"
+        echo ""
     if
     echo ""
     # 删除 WARP Endpoint IP 优选工具及其附属文件
