@@ -143,10 +143,14 @@ endpointyx(){
     echo ""
     yellow "使用方法如下: "
     yellow "warp-cli --accept-tos set-custom-endpoint ip:port"
-    echo ""
-    echo "正在设置优选IP"
     best_endpoint = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $1 }')
-    warp-cli --accept-tos set-custom-endpoint $best_endpoint
+    loss = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $2 }' | grep -oP '\d+(\.\d+)')
+    delay = $(cat result.csv | awk -F, '$3!="timeout ms" {print} ' | sort -t, -nk2 -nk3 | uniq | head -11 | sed -n "2, 1p" | awk -F, '{print $3 }' | grep -oP '\d+')
+    if [ ($loss -lt 1) && ($delay -lt 500) ];then
+        echo ""
+        echo "正在设置优选IP"
+        warp-cli --accept-tos set-custom-endpoint $best_endpoint
+    if
     echo ""
     # 删除 WARP Endpoint IP 优选工具及其附属文件
     # rm -f warp ip.txt
